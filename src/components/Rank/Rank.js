@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Rank = ({name, entries}) => {
+const Rank = ({name, entries}) => { /* Input of name and entries from the id and throws info onto rank */
     return (
         <div>
             <div className='white f3'>
