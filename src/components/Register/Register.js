@@ -24,7 +24,7 @@ onPasswordChange = (event) => { /* function to setState of password to the event
 }
 
 onSubmitSignIn = () => { /* This fetches info from the back end. This will send the email and password (live updated as per constructor) */
-  fetch('http://localhost:3000/register', {
+  fetch('https://polar-ravine-30088.herokuapp.com/register', {
     method:'post',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({

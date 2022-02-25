@@ -67,7 +67,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
 
   onButtonSubmit=() => {/* calls the Clarifai API function on button press*/
     this.setState({imageUrl:this.state.input}); /* sets imageUrl to whatever is in this.state.input, or whatever is in the input box from the user*/
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://polar-ravine-30088.herokuapp.com/imageurl', {
         method:'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -77,7 +77,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
     .then(response => response.json())
     .then(response => {
       if (response) {
-        fetch('http://localhost:3000/image', {
+        fetch('https://polar-ravine-30088.herokuapp.com/image', {
           method:'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
