@@ -6,32 +6,31 @@ import 'tachyons'
 import Logo from './components/Logo/Logo'; 
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'; 
 import Rank from './components/Rank/Rank'; 
-import Clarifai from 'clarifai';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
-const app = new Clarifai.App({
-  apiKey: "d9e83bac7f6c4e7d88c0691a3919dd0a",
- });
+
+
+const initialState={ /* Moves user decleration before the constructor so we can call inital state later to remove all information if the user logs out */
+  input:'', /*used for copying text in box*/
+  imageUrl:'', /* used for storing imageURL*/
+  box:{}, /* used for drawing the box shape on the picture*/
+  route: 'signin', /* used for navigating the site, stores a string to direct the page*/
+  isSignedIn:false, /* used for conditional to determine what to display in the top right/sign in status*/
+  user: {
+    id:'',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
 
  /*Constructor is called whenever you are messing with state objects in react. This allows you to live update.*/
 class App extends Component { /*constructor to create a copy of the compoannt and add to it, see advanced functions from Javasctipt advanced topics*/
   constructor () {
     super();
-    this.state = {
-      input:'', /*used for copying text in box*/
-      imageUrl:'', /* used for storing imageURL*/
-      box:{}, /* used for drawing the box shape on the picture*/
-      route: 'signin', /* used for navigating the site, stores a string to direct the page*/
-      isSignedIn:false, /* used for conditional to determine what to display in the top right/sign in status*/
-      user: {
-        id:'',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: '',
-      }
-    }
+    this.state = initialState
   }
 
   loadUser = (data) => {
@@ -67,10 +66,15 @@ class App extends Component { /*constructor to create a copy of the compoannt an
   }
 
   onButtonSubmit=() => {/* calls the Clarifai API function on button press*/
-    this.setState({imageUrl:this.state.input}) /* sets imageUrl to whatever is in this.state.input, or whatever is in the input box from the user*/
-    app.models.predict(
-      Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
+    this.setState({imageUrl:this.state.input}); /* sets imageUrl to whatever is in this.state.input, or whatever is in the input box from the user*/
+    fetch('http://localhost:3000/imageurl', {
+        method:'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          input:this.state.input
+       })
+    })
+    .then(response => response.json())
     .then(response => {
       if (response) {
         fetch('http://localhost:3000/image', {
@@ -84,6 +88,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
       .then(count=>{
         this.setState(Object.assign(this.state.user, {entries: count})) /* FYI Important: This Object.assign( x, y) is a javascript spec that ONLY changes the items in the onject x, for ONLY entry Y. Otherwise it overwrites the entire object*/
       })
+      .catch(console.log) /* This is to catch any error for the response */
     }
       this.displayFaceBox(this.calculateFaceLocation(response))
     })/*displays box calculated from Clarifai. Note response is the function called from Clarifai api*/
@@ -92,7 +97,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
 
   onRouteChange = (route) => {
     if (route === 'signout') {/*if signed out, when isSignedIn will be false. This will show navigation bar*/
-      this.setState({isSignedIn: false});
+      this.setState(initialState); /* Setes state to inital state upon signout so previous login is deleted on machine. Note that i used to have {} as we put info in the object (this.user.isSignedIn) */
     }
     else if (route === 'home'){/*if you are home, you are signed in and isSignedIn will be true. This will show navigation bar*/
       this.setState({isSignedIn: true});

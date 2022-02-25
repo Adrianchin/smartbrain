@@ -26,7 +26,7 @@ class SignIn extends React.Component {
     })
     .then(response=>response.json()) /* Response from back end expects info back. Sets response to the response.json and checks data to see if it returned success from the back end. If success, sets homepage to home */
     .then(user => {
-      if (user.id) {
+      if (user.id) { /* user.id is used because if it bounces back, user will contain a string and be true. user.id is empty = false */
         this.props.loadUser(user);
         this.props.onRouteChange('home'); /* Sets onRouteChange to home. This is shown in the App.js file as the new route, which is live updated on the App.js file*/
       }
