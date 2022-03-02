@@ -74,7 +74,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
           input:this.state.input
        })
     })
-    .then(response => response.json())
+    .then(response => response.json()) /*promise that sets response to response.json() (it is a json response)*/
     .then(response => {
       if (response) {
         fetch('https://polar-ravine-30088.herokuapp.com/image', {
@@ -84,7 +84,7 @@ class App extends Component { /*constructor to create a copy of the compoannt an
             id:this.state.user.id
         })
       })
-      .then(response => response.json()) /*sets users count from the server to the new count number*/
+      .then(response => response.json()) /*promise that sets response to response.json() (it is a json response)*/
       .then(count=>{
         this.setState(Object.assign(this.state.user, {entries: count})) /* FYI Important: This Object.assign( x, y) is a javascript spec that ONLY changes the items in the onject x, for ONLY entry Y. Otherwise it overwrites the entire object*/
       })
