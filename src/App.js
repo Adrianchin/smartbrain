@@ -15,8 +15,8 @@ const initialState={ /* Moves user decleration before the constructor so we can 
   input:'', /*used for copying text in box*/
   imageUrl:'', /* used for storing imageURL*/
   box:{}, /* used for drawing the box shape on the picture*/
-  route: 'signin', /* used for navigating the site, stores a string to direct the page*/
-  isSignedIn:false, /* used for conditional to determine what to display in the top right/sign in status*/
+  route: 'home', /* used for navigating the site, stores a string to direct the page*/
+  isSignedIn:true, /* used for conditional to determine what to display in the top right/sign in status*/
   user: {
     id:'',
     name: '',

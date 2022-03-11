@@ -4,7 +4,7 @@ import React from 'react';
 
 const Navigation = ({onRouteChange, isSignedIn}) => {
         if(isSignedIn){/* if isSignedIn true, show only signout*/
-            return ( /*on click, runs function onRouteChange as 'signout' as input*/
+            return ( /*on click, runs function onRouteChange as 'signout' as input. Note ()=> is used so it does not run when rendered, it will only run when button is clicked*/
             <nav style = {{display:'flex', justifyContent: 'flex-end'}}>
                 <p onClick={()=> onRouteChange('signout')} className='f3 link dim black underline pa3 pointer'>Sign Out</p>//
             </nav>
